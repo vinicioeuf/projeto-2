@@ -39,6 +39,7 @@ def index(request):
         'anos_json': json.dumps(anos),
         'valores_json': json.dumps(valores),
         'bems': bems,  # Mantendo os bens no contexto
+        'user': request.user,
     }
 
     return render(request, 'index.html', context)
