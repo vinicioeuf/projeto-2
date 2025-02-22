@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Deletar Movimentação{% endblock %}
+{% block content %}
+<h1>Tem certeza que deseja excluir esta movimentação?</h1>
+<p><strong>Bem:</strong> {{ movimentacao.bem }}</p>
+<p><strong>Origem:</strong> {{ movimentacao.origem }}</p>
+<p><strong>Destino:</strong> {{ movimentacao.destino }}</p>
+<p><strong>Responsável:</strong> {{ movimentacao.responsavel }}</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Deletar</button>
+    <a href="{% url 'listar_movimentacoes' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% include 'base.html' %}
+{% block content %}
+<h1>Lista de Bens</h1>
+<a href="{% url 'adicionar_bem' %}" class="btn btn-primary">Adicionar Bem</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for bem in bems %}
+        <tr>
+            <td>{{ bem.id }}</td>
+            <td>{{ bem.nome }}</td>
+            <td>{{ bem.categoria }}</td>
+            <td>
+                <a href="{% url 'editar_bem' bem.id %}" class="btn btn-warning">Editar</a>
+                <a href="{% url 'deletar_bem' bem.id %}" class="btn btn-danger">Deletar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

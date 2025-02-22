@@ -4,15 +4,43 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, logout
 from django.contrib.auth import login as loginDjango
 from django.contrib.auth.decorators import login_required
-
+from django.shortcuts import render
+from django.core.serializers import serialize
+from django.shortcuts import render
+from django.db.models import Count, Sum
+from .models import Bem, Categoria
+import json
+from datetime import datetime
 from estoque_app.forms import *
 from estoque_app.models import *
 
 # Create your views here.
 @login_required(login_url="/login")
-def index(request):
-    return render(request, 'index.html')
 
+def index(request):
+    # Dados para o gráfico de barras (quantidade de bens por categoria)
+    categorias_com_contagem = Categoria.objects.annotate(num_bens=Count('bem')).values('nome', 'num_bens')
+    categorias_data = list(categorias_com_contagem)
+    
+    # Dados para o gráfico de área (crescimento do patrimônio ao longo do ano)
+    crescimento_patrimonio = Bem.objects.values('data_aquisicao__year').annotate(
+        total_valor=Sum('valor')
+    ).order_by('data_aquisicao__year')
+    
+    anos = []
+    valores = []
+    for item in crescimento_patrimonio:
+        anos.append(str(item['data_aquisicao__year']))  # Ano como string
+        valores.append(float(item['total_valor']))       # Valor total como float
+    
+    # Passar os dados para o template
+    context = {
+        'categorias_json': json.dumps(categorias_data),  # Dados para o gráfico de barras
+        'anos_json': json.dumps(anos),                  # Dados para o gráfico de área
+        'valores_json': json.dumps(valores),            # Dados para o gráfico de área
+    }
+    
+    return render(request, 'index.html', context)
 def cadastro(request):
     if request.method == 'GET':
         return render(request, 'authentication/register.html')

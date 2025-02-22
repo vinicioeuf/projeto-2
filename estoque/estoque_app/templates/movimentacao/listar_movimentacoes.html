@@ -1,0 +1,29 @@
+{% include 'base.html' %}
+{% block content %}
+<h1>Lista de Movimentações</h1>
+<a href="{% url 'adicionar_movimentacao' %}" class="btn btn-primary">Nova Movimentação</a>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Bem</th>
+            <th>Departamento Origem</th>
+            <th>Departamento Destino</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for movimentacao in movimentacoes %}
+        <tr>
+            <td>{{ movimentacao.id }}</td>
+            <td>{{ movimentacao.bem }}</td>
+            <td>{{ movimentacao.departamento_origem }}</td>
+            <td>{{ movimentacao.departamento_destino }}</td>
+            <td>
+                <a href="{% url 'deletar_movimentacao' movimentacao.id %}" class="btn btn-danger">Deletar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
