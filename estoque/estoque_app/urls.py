@@ -39,13 +39,13 @@ urlpatterns = [
     path('departamento/deletar/<int:id>/', views.deletar_departamento, name='deletar_departamento'),
 
     # URLs para RFID
-    path('rfid/', views.listar_rfid, name='listar_rfid'),
-    path('rfid/adicionar/', views.adicionar_rfid, name='adicionar_rfid'),
-    path('rfid/editar/<int:id>/', views.editar_rfid, name='editar_rfid'),
-    path('rfid/deletar/<int:id>/', views.deletar_rfid, name='deletar_rfid'),
+    # path('rfid/', views.listar_rfid, name='listar_rfid'),
+    # path('rfid/adicionar/', views.adicionar_rfid, name='adicionar_rfid'),
+    # path('rfid/editar/<int:id>/', views.editar_rfid, name='editar_rfid'),
+    # path('rfid/deletar/<int:id>/', views.deletar_rfid, name='deletar_rfid'),
 
     # Logout
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('logout/', views.logout_view, name='logout'),
 
     # URLs para redefinição de senha
     path('reset_password/', auth_views.PasswordResetView.as_view(), name="reset_password"),

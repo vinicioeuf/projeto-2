@@ -44,6 +44,7 @@ class Bem(models.Model):
         ],
         default='ativo'
     )
+    rfid = models.CharField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         return f"{self.nome} ({self.numero_patrimonio})"
@@ -60,10 +61,3 @@ class Movimentacao(models.Model):
         return f"{self.bem.nome} de {self.origem} para {self.destino}"
 
 
-class RFID(models.Model):
-    bem = models.OneToOneField(Bem, on_delete=models.CASCADE)
-    tag_id = models.CharField(max_length=50, unique=True)
-    ultima_leitura = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f"RFID {self.tag_id} - {self.bem.nome}"

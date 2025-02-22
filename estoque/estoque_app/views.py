@@ -18,28 +18,29 @@ from estoque_app.models import *
 @login_required(login_url="/login")
 
 def index(request):
-    # Dados para o gráfico de barras (quantidade de bens por categoria)
-    categorias_com_contagem = Categoria.objects.annotate(num_bens=Count('bem')).values('nome', 'num_bens')
-    categorias_data = list(categorias_com_contagem)
-    
-    # Dados para o gráfico de área (crescimento do patrimônio ao longo do ano)
+    # Gráfico de barras (quantidade de bens por categoria)
+    categorias_com_contagem = Categoria.objects.annotate(num_bens=Count('bem'))
+    categorias_data = [{'nome': cat.nome, 'num_bens': cat.num_bens} for cat in categorias_com_contagem]
+
+    # Gráfico de área (crescimento do patrimônio ao longo do ano)
     crescimento_patrimonio = Bem.objects.values('data_aquisicao__year').annotate(
         total_valor=Sum('valor')
     ).order_by('data_aquisicao__year')
-    
-    anos = []
-    valores = []
-    for item in crescimento_patrimonio:
-        anos.append(str(item['data_aquisicao__year']))  # Ano como string
-        valores.append(float(item['total_valor']))       # Valor total como float
-    
-    # Passar os dados para o template
+
+    anos = [str(item['data_aquisicao__year']) for item in crescimento_patrimonio if item['data_aquisicao__year']]
+    valores = [float(item['total_valor']) for item in crescimento_patrimonio if item['total_valor']]
+
+    # Lista de bens para a tabela
+    bems = Bem.objects.all()
+
+    # Passar os dados para o template corretamente
     context = {
-        'categorias_json': json.dumps(categorias_data),  # Dados para o gráfico de barras
-        'anos_json': json.dumps(anos),                  # Dados para o gráfico de área
-        'valores_json': json.dumps(valores),            # Dados para o gráfico de área
+        'categorias_json': json.dumps(categorias_data),  # Garantir que seja JSON válido
+        'anos_json': json.dumps(anos),
+        'valores_json': json.dumps(valores),
+        'bems': bems,  # Mantendo os bens no contexto
     }
-    
+
     return render(request, 'index.html', context)
 def cadastro(request):
     if request.method == 'GET':
@@ -242,8 +243,8 @@ def deletar_movimentacao(request, id):
     return render(request, 'movimentacao/deletar_movimentacao.html', {'movimentacao': movimentacao})
 
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Departamento, RFID
-from .forms import DepartamentoForm, RFIDForm
+from .models import Departamento
+from .forms import DepartamentoForm
 
 # CRUD DEPARTAMENTO ==================================================================================
 
@@ -292,48 +293,48 @@ def deletar_departamento(request, id):
 
 # CRUD RFID ==================================================================================
 
-def adicionar_rfid(request):
-    if request.method == 'POST':
-        form = RFIDForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('listar_rfid')
-    else:
-        form = RFIDForm()
+# def adicionar_rfid(request):
+#     if request.method == 'POST':
+#         form = RFIDForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('listar_rfid')
+#     else:
+#         form = RFIDForm()
     
-    return render(request, 'rfid/adicionar_rfid.html', {'form': form})
+#     return render(request, 'rfid/adicionar_rfid.html', {'form': form})
 
 
-def listar_rfid(request):
-    rfids = RFID.objects.select_related('bem').all()
-    return render(request, 'rfid/listar_rfid.html', {'rfids': rfids})
+# def listar_rfid(request):
+#     rfids = RFID.objects.select_related('bem').all()
+#     return render(request, 'rfid/listar_rfid.html', {'rfids': rfids})
 
 
-def editar_rfid(request, id):
-    rfid = get_object_or_404(RFID, id=id)
+# def editar_rfid(request, id):
+#     rfid = get_object_or_404(RFID, id=id)
     
-    if request.method == 'POST':
-        form = RFIDForm(request.POST, instance=rfid)
-        if form.is_valid():
-            form.save()
-            return redirect('listar_rfid')
-    else:
-        form = RFIDForm(instance=rfid)
+#     if request.method == 'POST':
+#         form = RFIDForm(request.POST, instance=rfid)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('listar_rfid')
+#     else:
+#         form = RFIDForm(instance=rfid)
     
-    return render(request, 'rfid/editar_rfid.html', {
-        'form': form,
-        'rfid': rfid
-    })
+#     return render(request, 'rfid/editar_rfid.html', {
+#         'form': form,
+#         'rfid': rfid
+#     })
 
 
-def deletar_rfid(request, id):
-    rfid = get_object_or_404(RFID, id=id)
+# def deletar_rfid(request, id):
+#     rfid = get_object_or_404(RFID, id=id)
     
-    if request.method == 'POST':
-        rfid.delete()
-        return redirect('listar_rfid')
+#     if request.method == 'POST':
+#         rfid.delete()
+#         return redirect('listar_rfid')
     
-    return render(request, 'rfid/deletar_rfid.html', {'rfid': rfid})
+#     return render(request, 'rfid/deletar_rfid.html', {'rfid': rfid})
 
 def logout_view(request):
     logout(request)

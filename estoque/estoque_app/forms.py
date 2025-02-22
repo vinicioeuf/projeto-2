@@ -1,11 +1,11 @@
 from django import forms
-from .models import Bem, Categoria, Departamento, Fornecedor, Movimentacao, RFID
+from .models import Bem, Categoria, Departamento, Fornecedor, Movimentacao
 
 class BemForm(forms.ModelForm):
     class Meta:
         model = Bem
         fields = ['nome', 'valor', 'descricao', 'departamento', 'categoria', 'fornecedor', 
-                  'numero_patrimonio', 'data_aquisicao', 'status']
+                  'numero_patrimonio', 'data_aquisicao', 'status', 'rfid']
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nome do bem'}),
             'valor': forms.NumberInput(attrs={'class': 'form-control', 'step': '0.01'}),
@@ -13,9 +13,10 @@ class BemForm(forms.ModelForm):
             'departamento': forms.Select(attrs={'class': 'form-select'}),
             'categoria': forms.Select(attrs={'class': 'form-select'}),
             'fornecedor': forms.Select(attrs={'class': 'form-select'}),
-            'numero_patrimonio': forms.TextInput(attrs={'class': 'form-control'}),
+            'numero_patrimonio': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Identificador patrimonial do bem'}),
             'data_aquisicao': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
             'status': forms.Select(attrs={'class': 'form-select'}),
+            'rfid': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tag RFID'}),
         }
 
 class CategoriaForm(forms.ModelForm):
@@ -54,12 +55,12 @@ class MovimentacaoForm(forms.ModelForm):
             'destino': forms.Select(attrs={'class': 'form-select'}),
             'responsavel': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Responsável'}),
         }
-class RFIDForm(forms.ModelForm):
-    class Meta:
-        model = RFID
-        fields = ['bem', 'tag_id']
-        widgets = {
-            'bem': forms.Select(attrs={'class': 'form-select'}),
-            'tag_id': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Código RFID'}),
+# class RFIDForm(forms.ModelForm):
+#     class Meta:
+#         model = RFID
+#         fields = ['bem', 'tag_id']
+#         widgets = {
+#             'bem': forms.Select(attrs={'class': 'form-select'}),
+#             'tag_id': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Código RFID'}),
 
-        }
+#         }
