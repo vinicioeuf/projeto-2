@@ -225,54 +225,54 @@
                                     window.myAreaChart.destroy();
                                 }
                                 window.myAreaChart = new Chart(ctxArea, {
-                                    type: 'line',
-                                    data: {
-                                        labels: anos,
-                                        datasets: [{
-                                            label: 'Crescimento do Patrimônio',
-                                            data: valores,
-                                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                                            borderColor: 'rgba(75, 192, 192, 1)',
-                                            borderWidth: 2,
-                                            fill: true,
-                                        }]
-                                    },
-                                    options: {
-                                        interaction: {
-                                            mode: 'index',
-                                            intersect: false
-                                        },
-                                        hover: {
-                                            mode: 'nearest',
-                                            intersect: true
-                                        },
-                                        scales: {
-                                            y: {
-                                                beginAtZero: true,
-                                                title: {
-                                                    display: true,
-                                                    text: 'Valor Total (R$)'
-                                                }
-                                            },
-                                            x: {
-                                                title: {
-                                                    display: true,
-                                                    text: 'Ano'
-                                                }
-                                            }
-                                        },
-                                        plugins: {
-                                            tooltip: {
-                                                callbacks: {
-                                                    label: function(context) {
-                                                        return 'Valor: R$ ' + context.raw.toLocaleString('pt-BR');
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    }
+    type: 'line',
+    data: {
+        labels: anos,
+        datasets: [{
+            label: 'Crescimento do Patrimônio',
+            data: valores,
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 2,
+            fill: true,
+        }]
+    },
+    options: {
+        interaction: {
+            mode: 'index',
+            intersect: false
+        },
+        hover: {
+            mode: 'nearest',
+            intersect: false
+        },
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: 'Valor Total (R$)'
+                }
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: 'Ano'
+                }
+            }
+        },
+        plugins: {
+            tooltip: {
+                callbacks: {
+                    label: function(context) {
+                        return 'Valor: R$ ' + context.raw.toLocaleString('pt-BR');
+                    }
+                }
+            }
+        }
+    }
+});
 
-                                });
                             });
                             </script>
                         </div>
