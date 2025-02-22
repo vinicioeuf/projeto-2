@@ -137,8 +137,8 @@ def listar_bems(request):
         bems = Bem.objects.all()
 
     return render(request, 'bem/listar_bems.html', {'bems': bems})
-def editar_bem(request, id_bem):
-    bem = get_object_or_404(Bem, id_bem=id_bem)
+def editar_bem(request, id):
+    bem = get_object_or_404(Bem, id=id)
     
     if request.method == 'POST':
         form = BemForm(request.POST, instance=bem)
@@ -150,8 +150,8 @@ def editar_bem(request, id_bem):
     
     return render(request, 'bem/editar_bem.html', {'form': form, 'bem': bem})
 
-def deletar_bem(request, id_bem):
-    bem = get_object_or_404(Bem, id_bem=id_bem)
+def deletar_bem(request, id):
+    bem = get_object_or_404(Bem, id=id)
     
     if request.method == 'POST':
         bem.delete() 

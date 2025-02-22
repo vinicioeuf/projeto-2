@@ -25,7 +25,7 @@ urlpatterns = [
     path('movimentacao/adicionar/', views.adicionar_movimentacao, name='adicionar_movimentacao'),
     path('movimentacao/editar/<int:id>/', views.editar_movimentacao, name='editar_movimentacao'),
     path('movimentacao/deletar/<int:id>/', views.deletar_movimentacao, name='deletar_movimentacao'),
-
+    
     # URLs para Fornecedor
     path('fornecedor/', views.listar_fornecedores, name='listar_fornecedores'),
     path('fornecedor/adicionar/', views.adicionar_fornecedor, name='adicionar_fornecedor'),
