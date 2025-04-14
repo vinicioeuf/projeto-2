@@ -38,6 +38,7 @@ urlpatterns = [
     path('departamento/editar/<int:id>/', views.editar_departamento, name='editar_departamento'),
     path('departamento/deletar/<int:id>/', views.deletar_departamento, name='deletar_departamento'),
 
+    path('loja/lojaindex', views.lojaindex, name='lojaindex'),
     # URLs para RFID
     # path('rfid/', views.listar_rfid, name='listar_rfid'),
     # path('rfid/adicionar/', views.adicionar_rfid, name='adicionar_rfid'),

@@ -292,6 +292,8 @@ def deletar_departamento(request, id):
     
     return render(request, 'departamento/deletar_departamento.html', {'departamento': departamento})
 
+def lojaindex(request):
+    return render(request, 'loja/lojaindex.html')
 # CRUD RFID ==================================================================================
 
 # def adicionar_rfid(request):
